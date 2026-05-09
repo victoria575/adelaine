@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-haiku-4-5-20251001",
         max_tokens: 1000,
         system: `You are Adelaine, an expert tarot interpreter specializing in the Rider-Waite tradition.
 You have deep knowledge of all 78 tarot cards, including traditional symbolism, numerology, elemental correspondences, archetypal meaning, and standard spread interpretation.
@@ -64,6 +64,10 @@ Never theatrical, mystical-for-show, manipulative, or melodramatic.`,
     });
 
     const data = await response.json();
+    if (!response.ok) {
+      console.error("Anthropic error:", JSON.stringify(data));
+      return res.status(200).json({ reply: `API error: ${data.error?.message || JSON.stringify(data)}` });
+    }
     res.status(200).json({ reply: data.content?.[0]?.text || "The cards are quiet right now. Please try again." });
   } catch (err) {
     console.error(err);
