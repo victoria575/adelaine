@@ -8,7 +8,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
+    /* FLOATING CARDS */
+    .bg-card {
+      position: fixed;
+      width: 124px;
+      border-radius: 8px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      animation: floatCard ease-in-out infinite;
+    }
+    .bg-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    @keyframes floatCard {
+      0%   { transform: translateY(0px) rotate(var(--rot)); }
+      50%  { transform: translateY(-18px) rotate(calc(var(--rot) + 3deg)); }
+      100% { transform: translateY(0px) rotate(var(--rot)); }
+    }
+
     :root {
       --bg: #1a1a1a;
       --card: #F5F2EE;
@@ -22,7 +44,7 @@
       --orange-dark: #c93e12;
       --orange-glow: rgba(232, 75, 26, 0.08);
     }
- 
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -33,7 +55,7 @@
       justify-content: center;
       padding: 24px;
     }
- 
+
     .container {
       width: 100%;
       max-width: 520px;
@@ -43,7 +65,7 @@
       overflow: hidden;
       box-shadow: 0 12px 48px rgba(0,0,0,0.5);
     }
- 
+
     /* ADELAINE PHOTO */
     .adelaine-photo {
       width: 100%;
@@ -52,7 +74,7 @@
       object-position: center 20%;
       display: block;
     }
- 
+
     /* HEADER */
     .hdr {
       padding: 26px 28px 22px;
@@ -88,7 +110,7 @@
       letter-spacing: 0.12em;
       font-weight: 500;
     }
- 
+
     /* SCREENS */
     .screen { padding: 26px 28px; background: var(--card); }
     .screen-label {
@@ -110,7 +132,7 @@
       margin-bottom: 22px;
       line-height: 1.55;
     }
- 
+
     /* CHOICE CARDS — slightly darker than main */
     .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .cc {
@@ -137,7 +159,7 @@
       margin-bottom: 5px;
     }
     .cc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
- 
+
     /* GUIDE BOX */
     .guide-box {
       background: var(--card2);
@@ -172,7 +194,7 @@
       margin-top: 10px; padding-top: 10px;
       border-top: 1px solid var(--border);
     }
- 
+
     /* ACTION BUTTONS */
     .action-btns { display: flex; flex-direction: column; gap: 8px; }
     .abtn {
@@ -195,7 +217,7 @@
     .abtn-icon { font-size: 16px; flex-shrink: 0; }
     .abtn-sub { font-size: 10px; color: var(--dim); margin-left: auto; letter-spacing: 0.05em; white-space: nowrap; }
     .abtn.primary .abtn-sub { color: rgba(255,255,255,0.6); }
- 
+
     /* BACK */
     .back {
       font-size: 11px; color: var(--dim);
@@ -206,7 +228,7 @@
       background: none; border: none; font-family: 'DM Sans', sans-serif;
     }
     .back:hover { color: var(--text); }
- 
+
     /* CHAT */
     .messages {
       padding: 16px 28px;
@@ -218,7 +240,7 @@
     .messages::-webkit-scrollbar { width: 4px; }
     .messages::-webkit-scrollbar-track { background: transparent; }
     .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
- 
+
     .msg { display: flex; gap: 9px; align-items: flex-start; }
     .msg.user { flex-direction: row-reverse; }
     .av {
@@ -254,7 +276,7 @@
     }
     .bub.a { background: var(--card2); color: var(--text); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
     .bub.u { background: var(--orange); color: #fff; border-bottom-right-radius: 3px; }
- 
+
     /* TYPING */
     .trow { padding: 0 28px 10px; display: none; background: var(--card); }
     .tbub {
@@ -272,7 +294,7 @@
     .dot:nth-child(2) { animation-delay: .2s; }
     .dot:nth-child(3) { animation-delay: .4s; }
     @keyframes blink { 0%,60%,100% { opacity:.3; } 30% { opacity:1; } }
- 
+
     /* INPUT AREA */
     .inp-area { padding: 10px 28px 20px; display: flex; flex-direction: column; gap: 8px; background: var(--card); }
     .inp-row { display: flex; gap: 8px; }
@@ -309,7 +331,7 @@
     }
     .upl-btn:hover { border-color: var(--orange); }
     .fname { font-size: 11px; color: var(--dim); }
- 
+
     /* GATE */
     .gate {
       padding: 22px 28px;
@@ -337,7 +359,7 @@
       cursor: pointer; font-family: 'DM Sans', sans-serif;
     }
     .gate-row button:hover { background: var(--orange-dark); }
- 
+
     /* UNLOCKED */
     .unlocked-tag {
       font-size: 10px; color: var(--orange);
@@ -348,7 +370,7 @@
       margin: 0 28px 8px;
       display: none;
     }
- 
+
     /* FOOTER */
     .footer {
       padding: 12px 28px;
@@ -358,7 +380,7 @@
     }
     .footer-txt { font-size: 10px; color: var(--dim); letter-spacing: 0.1em; }
     .footer-brand { font-size: 10px; color: var(--orange); letter-spacing: 0.12em; font-weight: 600; }
- 
+
     /* CARD IMAGE */
     .card-reveal {
       display: flex;
@@ -419,10 +441,10 @@
 </head>
 <body>
 <div class="container">
- 
+
   <!-- PHOTO -->
   <img src="/adelaine.png" alt="Adelaine" class="adelaine-photo"/>
- 
+
   <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-eyebrow">
@@ -433,7 +455,7 @@
     <div class="hdr-name">Adelaine</div>
     <div class="hdr-sub">AI TAROT READER</div>
   </div>
- 
+
   <!-- WELCOME SCREEN -->
   <div id="s-welcome" class="screen">
     <div class="screen-label">WHERE DO YOU START</div>
@@ -452,7 +474,7 @@
       </div>
     </div>
   </div>
- 
+
   <!-- NEW USER SCREEN -->
   <div id="s-new" class="screen" style="display:none">
     <button class="back" onclick="show('s-welcome')">← BACK</button>
@@ -487,7 +509,7 @@
       </button>
     </div>
   </div>
- 
+
   <!-- EXPERIENCED SCREEN -->
   <div id="s-exp" class="screen" style="display:none">
     <button class="back" onclick="show('s-welcome')">← BACK</button>
@@ -506,7 +528,7 @@
       </button>
     </div>
   </div>
- 
+
   <!-- CHAT SCREEN -->
   <div id="s-chat" style="display:none">
     <div style="padding:12px 28px;display:flex;gap:8px;border-bottom:1px solid var(--border);background:var(--card)">
@@ -541,18 +563,18 @@
       </div>
     </div>
   </div>
- 
+
   <!-- FOOTER -->
   <div class="footer">
     <div class="footer-txt">POWERED BY</div>
     <div class="footer-brand">ALTIORA</div>
   </div>
- 
+
 </div>
- 
+
 <script>
   const major = ['The Fool','The Magician','The High Priestess','The Empress','The Emperor','The Hierophant','The Lovers','The Chariot','Strength','The Hermit','Wheel of Fortune','Justice','The Hanged Man','Death','Temperance','The Devil','The Tower','The Star','The Moon','The Sun','Judgement','The World'];
- 
+
   const cardImages = {
     // Major Arcana
     'The Fool': '/cards/major-00.jpg',
@@ -638,12 +660,12 @@
     'Queen of Pentacles': '/cards/pentacles-13.jpg',
     'King of Pentacles': '/cards/pentacles-14.jpg'
   };
- 
+
   let history = [];
   let readingCount = 0;
   let unlocked = false;
   let fileData = null;
- 
+
   function show(id) {
     ['s-welcome','s-new','s-exp','s-chat'].forEach(s => {
       const el = document.getElementById(s);
@@ -651,27 +673,27 @@
     });
     document.getElementById(id).style.display = 'block';
   }
- 
+
   let currentLevel = 'new';
- 
+
   function chooseLevel(l) {
     currentLevel = l;
     show(l === 'new' ? 's-new' : 's-exp');
   }
- 
+
   function goBackToReadings() {
     // Remove card reveal if present
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
     show(currentLevel === 'new' ? 's-new' : 's-exp');
   }
- 
+
   function showCardReveal(cardName) {
     const chatSection = document.getElementById('s-chat');
     // Remove existing reveal if any
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
- 
+
     const imgSrc = cardImages[cardName];
     const div = document.createElement('div');
     div.className = 'card-reveal';
@@ -688,14 +710,14 @@
       </div>
     `;
     chatSection.insertBefore(div, document.getElementById('msgs'));
- 
+
     // Flip after short delay for effect
     setTimeout(() => {
       const inner = document.getElementById('card-inner');
       if (inner) inner.classList.add('flipped');
     }, 400);
   }
- 
+
   function startReading(type) {
     show('s-chat');
     document.getElementById('msgs').innerHTML = '';
@@ -703,7 +725,7 @@
     // Remove any previous card reveal
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
- 
+
     if (type === 'daily') {
       const card = major[Math.floor(Math.random() * major.length)];
       const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -723,7 +745,7 @@
       document.getElementById('inp-area').style.display = 'flex';
     }
   }
- 
+
   function addMsg(text, who) {
     const msgs = document.getElementById('msgs');
     const row = document.createElement('div');
@@ -738,12 +760,12 @@
     msgs.appendChild(row);
     msgs.scrollTop = msgs.scrollHeight;
   }
- 
+
   function showTyping(v) {
     document.getElementById('trow').style.display = v ? 'block' : 'none';
     document.getElementById('msgs').scrollTop = 9999;
   }
- 
+
   async function send() {
     const inp = document.getElementById('inp');
     const val = inp.value.trim();
@@ -755,18 +777,18 @@
     document.getElementById('fname').textContent = 'OPTIONAL';
     document.getElementById('file-in').value = '';
   }
- 
+
   async function callAdelaine(text, imageData, isSignifier = false) {
     showTyping(true);
- 
+
     const content = [];
     if (imageData) {
       content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: imageData.split(',')[1] } });
     }
     content.push({ type: 'text', text });
- 
+
     history.push({ role: 'user', content: content.length === 1 ? text : content });
- 
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -789,7 +811,7 @@
       addMsg('Something interrupted the reading. Please try again.', 'a');
     }
   }
- 
+
   function checkGate(isSignifier = false) {
     if (isSignifier) {
       // For daily/monthly — just show a subtle "new reading" nudge, no gate
@@ -806,7 +828,7 @@
       document.getElementById('gate').style.display = 'block';
     }
   }
- 
+
   function unlock() {
     const email = document.getElementById('email-in').value.trim();
     if (!email || !email.includes('@')) {
@@ -826,7 +848,7 @@
     document.getElementById('unlocked-tag').style.display = 'block';
     addMsg('Welcome back. The deck is fully open — ask as many questions as you like.', 'a');
   }
- 
+
   function fileChosen(input) {
     if (input.files && input.files[0]) {
       document.getElementById('fname').textContent = input.files[0].name;
@@ -835,6 +857,38 @@
       r.readAsDataURL(input.files[0]);
     }
   }
+</script>
+<script>
+  const BASE = 'https://upload.wikimedia.org/wikipedia/commons';
+  // Calculate card position relative to widget
+  const cardEl = document.querySelector('.container');
+
+  const floatingCards = [
+    { url: BASE + '/9/90/RWS_Tarot_00_Fool.jpg',           top: '4%',  side: 'left',  offset: 'calc(50% - 560px)', rot: '-18deg', dur: '7s'  },
+    { url: BASE + '/d/de/RWS_Tarot_01_Magician.jpg',       top: '30%', side: 'left',  offset: 'calc(50% - 435px)', rot: '15deg',  dur: '9s'  },
+    { url: BASE + '/8/88/RWS_Tarot_02_High_Priestess.jpg', top: '55%', side: 'left',  offset: 'calc(50% - 480px)', rot: '-7deg',  dur: '8s'  },
+    { url: BASE + '/d/d2/RWS_Tarot_03_Empress.jpg',        top: '76%', side: 'left',  offset: 'calc(50% - 430px)', rot: '10deg',  dur: '11s' },
+    { url: BASE + '/7/7f/RWS_Tarot_18_Moon.jpg',           top: '4%',  side: 'right', offset: 'calc(50% - 420px)', rot: '15deg',  dur: '10s' },
+    { url: BASE + '/d/db/RWS_Tarot_17_Star.jpg',           top: '30%', side: 'right', offset: 'calc(50% - 440px)', rot: '22deg',  dur: '8s'  },
+    { url: BASE + '/1/17/RWS_Tarot_19_Sun.jpg',            top: '55%', side: 'right', offset: 'calc(50% - 410px)', rot: '10deg',  dur: '9s'  },
+    { url: BASE + '/f/ff/RWS_Tarot_21_World.jpg',          top: '76%', side: 'right', offset: 'calc(50% - 430px)', rot: '20deg',  dur: '12s' },
+  ];
+
+  floatingCards.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'bg-card';
+    div.style.top = card.top;
+    if (card.side === 'left') {
+      div.style.left = card.offset;
+    } else {
+      div.style.right = card.offset;
+    }
+    div.style.setProperty('--rot', card.rot);
+    div.style.animationDuration = card.dur;
+    div.style.animationDelay = '-' + (Math.random() * 5) + 's';
+    div.innerHTML = `<img src="${card.url}" alt="tarot card" loading="lazy"/>`;
+    document.body.appendChild(div);
+  });
 </script>
 </body>
 </html>
