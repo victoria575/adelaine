@@ -1,9 +1,7 @@
 {
   "version": 2,
-  "routes": [
-    { "src": "/api/chat", "dest": "/api/chat.js" },
-    { "src": "/adelaine.png", "dest": "/adelaine.png" },
-    { "src": "/cards/(.*)", "dest": "/cards/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/chat", "destination": "/api/chat.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
