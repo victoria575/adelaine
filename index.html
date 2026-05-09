@@ -22,7 +22,7 @@
     /* FLOATING CARDS */
     .bg-card {
       position: fixed;
-      width: 140px;
+      width: 168px;
       border-radius: 8px;
       overflow: hidden;
       pointer-events: none;
@@ -414,6 +414,97 @@
     .footer-txt { font-size: 10px; color: var(--dim); letter-spacing: 0.1em; }
     .footer-brand { font-size: 10px; color: var(--orange); letter-spacing: 0.12em; font-weight: 600; }
 
+    /* THREE CARD SPREAD */
+    .spread-reveal {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      padding: 16px 20px 8px;
+      background: var(--card);
+    }
+    .spread-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .spread-label {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+      font-weight: 600;
+      text-align: center;
+    }
+    .spread-img-wrap {
+      perspective: 600px;
+      width: 80px;
+      height: 138px;
+    }
+    .spread-img-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    }
+    .spread-img-inner.flipped {
+      transform: rotateY(180deg);
+    }
+    .spread-face, .spread-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .spread-back {
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .spread-face {
+      transform: rotateY(180deg);
+    }
+    .spread-face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .spread-card-name {
+      font-size: 9px;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.05em;
+      max-width: 80px;
+    }
+
+    /* ACTION BUTTONS IN CHAT */
+    .chat-action-btns {
+      display: flex;
+      gap: 8px;
+      padding: 4px 0 8px;
+      flex-wrap: wrap;
+    }
+    .chat-abtn {
+      font-size: 11px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      background: transparent;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+    .chat-abtn:hover { background: var(--orange); color: #fff; }
+    .chat-abtn.primary { background: var(--orange); color: #fff; }
+
     /* CARD IMAGE */
     .card-reveal {
       display: flex;
@@ -424,7 +515,7 @@
     }
     .card-img-wrap {
       perspective: 800px;
-      width: 140px;
+      width: 168px;
       height: 240px;
       margin-bottom: 16px;
     }
@@ -593,10 +684,13 @@
     </div>
     <div class="gate" id="gate" style="display:none">
       <div class="gate-title">Your reading is ready to continue</div>
-      <div class="gate-sub">Enter your email to unlock unlimited readings with Adelaine</div>
-      <div class="gate-row">
-        <input type="email" id="email-in" placeholder="your@email.com" onkeydown="if(event.key==='Enter')unlock()"/>
-        <button onclick="unlock()">UNLOCK →</button>
+      <div class="gate-sub">Enter your details to unlock unlimited readings with Adelaine</div>
+      <div class="gate-row" style="flex-direction:column;gap:8px">
+        <input type="text" id="name-in" placeholder="Your first name" onkeydown="if(event.key==='Enter')document.getElementById('email-in').focus()"/>
+        <div style="display:flex;gap:8px">
+          <input type="email" id="email-in" placeholder="your@email.com" onkeydown="if(event.key==='Enter')unlock()" style="flex:1"/>
+          <button onclick="unlock()">UNLOCK →</button>
+        </div>
       </div>
     </div>
   </div>
@@ -726,12 +820,12 @@
   }
 
   function showCardReveal(cardName) {
-    const chatSection = document.getElementById('s-chat');
-    // Remove existing reveal if any
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
 
     const imgSrc = cardImages[cardName];
+    const msgs = document.getElementById('msgs');
+
     const div = document.createElement('div');
     div.className = 'card-reveal';
     div.id = 'card-reveal';
@@ -746,9 +840,9 @@
         </div>
       </div>
     `;
-    chatSection.insertBefore(div, document.getElementById('msgs'));
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
 
-    // Flip after short delay for effect
     setTimeout(() => {
       const inner = document.getElementById('card-inner');
       if (inner) inner.classList.add('flipped');
@@ -767,19 +861,23 @@
       const card = major[Math.floor(Math.random() * major.length)];
       const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       showCardReveal(card);
-      addMsg(`Today is <strong>${today}</strong>.<br>The energy of your day is — <strong>${card}</strong>.<br>Reading now...`, 'a');
-      callAdelaine(`Give a daily signifier reading for the Major Arcana card: ${card} for today, ${today}. What energy does this bring for today? Be specific and grounded.`, null, true);
+      const greeting = userName ? `${userName}, today is` : `Today is`;
+      addMsg(`${greeting} <strong>${today}</strong>.<br>The energy of your day is — <strong>${card}</strong>.<br>Reading now...`, 'a');
+      callAdelaine(`Give a daily signifier reading for the Major Arcana card: ${card} for today, ${today}.${userName ? ' Address the person as ' + userName + '.' : ''} What energy does this bring for today? Be specific and grounded.`, null, true);
       document.getElementById('inp-area').style.display = 'none';
     } else if (type === 'monthly') {
       const card = major[Math.floor(Math.random() * major.length)];
       const monthName = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
       showCardReveal(card);
-      addMsg(`The energy of <strong>${monthName}</strong> is — <strong>${card}</strong>.<br>Reading its theme now...`, 'a');
-      callAdelaine(`Give a monthly signifier reading for the Major Arcana card: ${card} for ${monthName}. What theme or energy does this bring for the month ahead? Be specific and grounded.`, null, true);
+      const mgreeting = userName ? `${userName}, the energy of` : `The energy of`;
+      addMsg(`${mgreeting} <strong>${monthName}</strong> is — <strong>${card}</strong>.<br>Reading its theme now...`, 'a');
+      callAdelaine(`Give a monthly signifier reading for the Major Arcana card: ${card} for ${monthName}.${userName ? ' Address the person as ' + userName + '.' : ''} What theme or energy does this bring for the month ahead? Be specific and grounded.`, null, true);
       document.getElementById('inp-area').style.display = 'none';
     } else {
-      addMsg('Ready for your reading.<br><br>Upload a photo of your spread if you have one, then tell me your question — the area of life, the time frame, and what you\'re seeking clarity on.', 'a');
+      const qgreeting = userName ? `${userName}, what` : `What`;
+      addMsg(`${qgreeting} is your question for the cards?<br><br>Tell me the area of life, the time frame, and what you're seeking clarity on. No yes/no questions — tarot shows energy and direction.`, 'a');
       document.getElementById('inp-area').style.display = 'flex';
+      document.getElementById('inp-area').dataset.step = 'question';
     }
   }
 
@@ -806,20 +904,29 @@
     }
   }
 
+  function parseMarkdown(text) {
+    return text
+      .replace(/### (.*?)(?:\n|$)/g, '<h4 style="font-size:13px;font-weight:600;color:var(--text);margin:10px 0 4px;">$1</h4>')
+      .replace(/## (.*?)(?:\n|$)/g, '<h3 style="font-size:14px;font-weight:600;color:var(--text);margin:12px 0 4px;">$1</h3>')
+      .replace(/# (.*?)(?:\n|$)/g, '<h3 style="font-size:15px;font-weight:600;color:var(--orange);margin:12px 0 6px;">$1</h3>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/---/g, '<hr style="border:none;border-top:0.5px solid var(--border);margin:10px 0;">')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n/g, '<br>');
+  }
+
   function typeWriter(el, text, onDone) {
-    // Strip HTML tags for plain typing, then render bold/br at end
-    // Use a character-by-character approach preserving HTML
-    const speed = 18; // ms per character
+    const parsed = parseMarkdown(text);
+    const speed = 14;
     let i = 0;
-    const plain = text;
-    
-    // We type the raw HTML including tags — but skip tag characters instantly
+
     function next() {
-      if (i <= plain.length) {
-        el.innerHTML = plain.substring(0, i) + '<span style="border-right:2px solid var(--orange);animation:blink-cursor 0.7s step-end infinite"></span>';
-        // Skip ahead through HTML tags instantly
-        if (plain[i] === '<') {
-          const close = plain.indexOf('>', i);
+      if (i <= parsed.length) {
+        const current = parsed.substring(0, i);
+        el.innerHTML = current + '<span style="border-right:2px solid var(--orange);animation:blink-cursor 0.7s step-end infinite"> </span>';
+        if (parsed[i] === '<') {
+          const close = parsed.indexOf('>', i);
           if (close !== -1) i = close + 1;
           else i++;
           setTimeout(next, 0);
@@ -828,7 +935,7 @@
           setTimeout(next, speed);
         }
       } else {
-        el.innerHTML = plain; // Final clean render
+        el.innerHTML = parsed;
         if (onDone) onDone();
       }
     }
@@ -886,16 +993,146 @@
     }
   }
 
+  let userQuestion = '';
+
   async function send() {
     const inp = document.getElementById('inp');
     const val = inp.value.trim();
     if (!val) return;
     inp.value = '';
     addMsg(val, 'u');
+
+    const inpArea = document.getElementById('inp-area');
+    const step = inpArea.dataset.step;
+
+    if (step === 'question') {
+      // User just typed their question — offer card draw options
+      userQuestion = val;
+      inpArea.style.display = 'none';
+      setTimeout(() => {
+        addMsgWithButtons(
+          'How would you like to approach this reading?',
+          [
+            { label: '✦ DRAW 3 CARDS', action: 'drawThree', primary: true },
+            { label: '📷 UPLOAD MY SPREAD', action: 'uploadSpread' },
+            { label: '✍ DESCRIBE MY CARDS', action: 'describeCards' }
+          ]
+        );
+      }, 600);
+      return;
+    }
+
     await callAdelaine(val, fileData, false);
     fileData = null;
     document.getElementById('fname').textContent = 'OPTIONAL';
     document.getElementById('file-in').value = '';
+  }
+
+  function addMsgWithButtons(text, buttons) {
+    const msgs = document.getElementById('msgs');
+    const row = document.createElement('div');
+    row.className = 'msg';
+    const av = document.createElement('div');
+    av.className = 'av a'; av.textContent = 'AD';
+    const wrap = document.createElement('div');
+    wrap.style.display = 'flex'; wrap.style.flexDirection = 'column'; wrap.style.gap = '8px'; wrap.style.maxWidth = '82%';
+    const b = document.createElement('div');
+    b.className = 'bub a';
+    b.innerHTML = text;
+    const btnRow = document.createElement('div');
+    btnRow.className = 'chat-action-btns';
+    buttons.forEach(btn => {
+      const el = document.createElement('button');
+      el.className = 'chat-abtn' + (btn.primary ? ' primary' : '');
+      el.textContent = btn.label;
+      el.onclick = () => {
+        btnRow.remove();
+        handleSpreadChoice(btn.action);
+      };
+      btnRow.appendChild(el);
+    });
+    wrap.appendChild(b); wrap.appendChild(btnRow);
+    row.appendChild(av); row.appendChild(wrap);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function handleSpreadChoice(action) {
+    if (action === 'drawThree') {
+      drawThreeCards();
+    } else if (action === 'uploadSpread') {
+      addMsg('Please upload a photo of your spread below, then hit READ.', 'a');
+      const inpArea = document.getElementById('inp-area');
+      inpArea.dataset.step = 'reading';
+      inpArea.style.display = 'flex';
+    } else if (action === 'describeCards') {
+      addMsg('Describe your cards — which cards are in your spread and their positions.', 'a');
+      const inpArea = document.getElementById('inp-area');
+      inpArea.dataset.step = 'reading';
+      inpArea.style.display = 'flex';
+    }
+  }
+
+  function drawThreeCards() {
+    const positions = ['SITUATION', 'ACTION', 'OUTCOME'];
+    const drawn = [];
+    while (drawn.length < 3) {
+      const card = major[Math.floor(Math.random() * major.length)];
+      if (!drawn.find(c => c.name === card)) drawn.push({ name: card, pos: positions[drawn.length] });
+    }
+
+    // Show spread
+    const msgs = document.getElementById('msgs');
+    const spread = document.createElement('div');
+    spread.className = 'spread-reveal';
+    spread.id = 'three-card-spread';
+
+    drawn.forEach((card, i) => {
+      const imgSrc = cardImages[card.name];
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'spread-card';
+      cardDiv.innerHTML = `
+        <div class="spread-label">${card.pos}</div>
+        <div class="spread-img-wrap">
+          <div class="spread-img-inner" id="spread-inner-${i}">
+            <div class="spread-back">✦</div>
+            <div class="spread-face"><img src="${imgSrc}" alt="${card.name}"/></div>
+          </div>
+        </div>
+        <div class="spread-card-name">${card.name}</div>
+      `;
+      spread.appendChild(cardDiv);
+    });
+
+    msgs.appendChild(spread);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    // Flip cards one by one
+    drawn.forEach((_, i) => {
+      setTimeout(() => {
+        const inner = document.getElementById(`spread-inner-${i}`);
+        if (inner) inner.classList.add('flipped');
+        if (i === 2) {
+          // All flipped — now read them
+          setTimeout(() => {
+            const cardNames = drawn.map(c => `${c.pos}: ${c.name}`).join(', ');
+            addMsg(`Your three cards are drawn. Reading them now...`, 'a');
+            callAdelaine(
+              `The person asked: "${userQuestion}". They drew these cards in a Situation/Action/Outcome spread: ${cardNames}.${userName ? ' Address them as ' + userName + '.' : ''} Read all three cards in relation to their specific question. Interpret each card's position meaning, then give a coherent overall synthesis.`,
+              null, false
+            );
+          }, 600);
+        }
+      }, 400 + i * 700);
+    });
+
+    // Show full chat input for follow-ups
+    setTimeout(() => {
+      const inpArea = document.getElementById('inp-area');
+      inpArea.dataset.step = 'reading';
+      inpArea.style.display = 'flex';
+      document.getElementById('inp').placeholder = 'Ask Adelaine a follow-up...';
+    }, 400 + 3 * 700 + 1000);
   }
 
   async function callAdelaine(text, imageData, isSignifier = false) {
@@ -949,24 +1186,31 @@
     }
   }
 
+  let userName = '';
+
   function unlock() {
     const email = document.getElementById('email-in').value.trim();
+    const name = document.getElementById('name-in').value.trim();
+    if (!name) {
+      document.getElementById('name-in').style.borderColor = 'var(--orange)';
+      return;
+    }
     if (!email || !email.includes('@')) {
       document.getElementById('email-in').style.borderColor = 'var(--orange)';
       return;
     }
-    // Send email to Google Sheets
+    userName = name.charAt(0).toUpperCase() + name.slice(1);
     fetch('https://script.google.com/macros/s/AKfycbxXp-GLHMdCB-zY592bHAkwzegBrzYWettnLTPt5I5mQr6_9_yJst7WAvBMiRl_gZ4B/exec', {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, source: 'Adelaine Widget' })
+      body: JSON.stringify({ email, name: userName, source: 'Adelaine Widget' })
     }).catch(err => console.log('Sheet error:', err));
     unlocked = true;
     document.getElementById('gate').style.display = 'none';
     document.getElementById('inp-area').style.display = 'flex';
     document.getElementById('unlocked-tag').style.display = 'block';
-    addMsg('Welcome back. The deck is fully open — ask as many questions as you like.', 'a');
+    addMsg(`Welcome, ${userName}. The deck is fully open — ask as many questions as you like.`, 'a');
   }
 
   function fileChosen(input) {
@@ -1019,14 +1263,14 @@
   const cardEl = document.querySelector('.container');
 
   const floatingCards = [
-    { url: BASE + '/9/90/RWS_Tarot_00_Fool.jpg',           top: '4%',  side: 'left',  offset: 'calc(50% - 560px)', rot: '-18deg', dur: '7s'  },
-    { url: BASE + '/d/de/RWS_Tarot_01_Magician.jpg',       top: '30%', side: 'left',  offset: 'calc(50% - 435px)', rot: '15deg',  dur: '9s'  },
-    { url: BASE + '/8/88/RWS_Tarot_02_High_Priestess.jpg', top: '55%', side: 'left',  offset: 'calc(50% - 480px)', rot: '-7deg',  dur: '8s'  },
+    { url: BASE + '/9/90/RWS_Tarot_00_Fool.jpg',           top: '-5%', side: 'left',  offset: 'calc(50% - 560px)', rot: '-18deg', dur: '7s'  },
+    { url: BASE + '/d/de/RWS_Tarot_01_Magician.jpg',       top: '15%', side: 'left',  offset: 'calc(50% - 435px)', rot: '15deg',  dur: '9s'  },
+    { url: BASE + '/8/88/RWS_Tarot_02_High_Priestess.jpg', top: '55%', side: 'left',  offset: 'calc(50% - 500px)', rot: '-7deg',  dur: '8s'  },
     { url: BASE + '/d/d2/RWS_Tarot_03_Empress.jpg',        top: '76%', side: 'left',  offset: 'calc(50% - 430px)', rot: '10deg',  dur: '11s' },
     { url: BASE + '/7/7f/RWS_Tarot_18_Moon.jpg',           top: '4%',  side: 'right', offset: 'calc(50% - 420px)', rot: '15deg',  dur: '10s' },
-    { url: BASE + '/d/db/RWS_Tarot_17_Star.jpg',           top: '30%', side: 'right', offset: 'calc(50% - 440px)', rot: '22deg',  dur: '8s'  },
-    { url: BASE + '/1/17/RWS_Tarot_19_Sun.jpg',            top: '55%', side: 'right', offset: 'calc(50% - 410px)', rot: '10deg',  dur: '9s'  },
-    { url: BASE + '/f/ff/RWS_Tarot_21_World.jpg',          top: '76%', side: 'right', offset: 'calc(50% - 430px)', rot: '20deg',  dur: '12s' },
+    { url: BASE + '/d/db/RWS_Tarot_17_Star.jpg',           top: '30%', side: 'right', offset: 'calc(50% - 560px)', rot: '10deg',  dur: '8s'  },
+    { url: BASE + '/1/17/RWS_Tarot_19_Sun.jpg',            top: '48%', side: 'right', offset: 'calc(50% - 410px)', rot: '2deg',   dur: '9s'  },
+    { url: BASE + '/f/ff/RWS_Tarot_21_World.jpg',          top: '70%', side: 'right', offset: 'calc(50% - 500px)', rot: '-5deg',  dur: '12s' },
   ];
 
   floatingCards.forEach(card => {
