@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --bg: #1a1a1a;
       --card: #F5F2EE;
@@ -22,7 +22,7 @@
       --orange-dark: #c93e12;
       --orange-glow: rgba(232, 75, 26, 0.08);
     }
-
+ 
     body {
       background: var(--bg);
       color: var(--text);
@@ -33,7 +33,7 @@
       justify-content: center;
       padding: 24px;
     }
-
+ 
     .container {
       width: 100%;
       max-width: 520px;
@@ -43,7 +43,16 @@
       overflow: hidden;
       box-shadow: 0 12px 48px rgba(0,0,0,0.5);
     }
-
+ 
+    /* ADELAINE PHOTO */
+    .adelaine-photo {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+    }
+ 
     /* HEADER */
     .hdr {
       padding: 26px 28px 22px;
@@ -79,7 +88,7 @@
       letter-spacing: 0.12em;
       font-weight: 500;
     }
-
+ 
     /* SCREENS */
     .screen { padding: 26px 28px; background: var(--card); }
     .screen-label {
@@ -101,7 +110,7 @@
       margin-bottom: 22px;
       line-height: 1.55;
     }
-
+ 
     /* CHOICE CARDS — slightly darker than main */
     .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .cc {
@@ -128,7 +137,7 @@
       margin-bottom: 5px;
     }
     .cc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
+ 
     /* GUIDE BOX */
     .guide-box {
       background: var(--card2);
@@ -163,7 +172,7 @@
       margin-top: 10px; padding-top: 10px;
       border-top: 1px solid var(--border);
     }
-
+ 
     /* ACTION BUTTONS */
     .action-btns { display: flex; flex-direction: column; gap: 8px; }
     .abtn {
@@ -186,7 +195,7 @@
     .abtn-icon { font-size: 16px; flex-shrink: 0; }
     .abtn-sub { font-size: 10px; color: var(--dim); margin-left: auto; letter-spacing: 0.05em; white-space: nowrap; }
     .abtn.primary .abtn-sub { color: rgba(255,255,255,0.6); }
-
+ 
     /* BACK */
     .back {
       font-size: 11px; color: var(--dim);
@@ -197,7 +206,7 @@
       background: none; border: none; font-family: 'DM Sans', sans-serif;
     }
     .back:hover { color: var(--text); }
-
+ 
     /* CHAT */
     .messages {
       padding: 16px 28px;
@@ -209,7 +218,7 @@
     .messages::-webkit-scrollbar { width: 4px; }
     .messages::-webkit-scrollbar-track { background: transparent; }
     .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
+ 
     .msg { display: flex; gap: 9px; align-items: flex-start; }
     .msg.user { flex-direction: row-reverse; }
     .av {
@@ -219,7 +228,23 @@
       font-size: 9px; font-weight: 600;
       flex-shrink: 0; letter-spacing: 0.05em;
     }
-    .av.a { background: var(--orange); color: #fff; }
+    .av.a {
+      background: radial-gradient(circle at 35% 35%, #e8e0f8, #9b7fd4 40%, #4a2d8a 70%, #1a0a3a);
+      box-shadow: 0 0 8px rgba(155, 127, 212, 0.6), inset 0 1px 2px rgba(255,255,255,0.4);
+      color: transparent;
+      font-size: 0;
+      position: relative;
+      overflow: visible;
+    }
+    .av.a::after {
+      content: '';
+      position: absolute;
+      top: 4px; left: 5px;
+      width: 7px; height: 5px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.7), transparent);
+      border-radius: 50%;
+      transform: rotate(-30deg);
+    }
     .av.u { background: var(--card3); color: var(--muted); border: 1px solid var(--border); }
     .bub {
       padding: 10px 14px;
@@ -229,7 +254,7 @@
     }
     .bub.a { background: var(--card2); color: var(--text); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
     .bub.u { background: var(--orange); color: #fff; border-bottom-right-radius: 3px; }
-
+ 
     /* TYPING */
     .trow { padding: 0 28px 10px; display: none; background: var(--card); }
     .tbub {
@@ -247,7 +272,7 @@
     .dot:nth-child(2) { animation-delay: .2s; }
     .dot:nth-child(3) { animation-delay: .4s; }
     @keyframes blink { 0%,60%,100% { opacity:.3; } 30% { opacity:1; } }
-
+ 
     /* INPUT AREA */
     .inp-area { padding: 10px 28px 20px; display: flex; flex-direction: column; gap: 8px; background: var(--card); }
     .inp-row { display: flex; gap: 8px; }
@@ -284,7 +309,7 @@
     }
     .upl-btn:hover { border-color: var(--orange); }
     .fname { font-size: 11px; color: var(--dim); }
-
+ 
     /* GATE */
     .gate {
       padding: 22px 28px;
@@ -312,7 +337,7 @@
       cursor: pointer; font-family: 'DM Sans', sans-serif;
     }
     .gate-row button:hover { background: var(--orange-dark); }
-
+ 
     /* UNLOCKED */
     .unlocked-tag {
       font-size: 10px; color: var(--orange);
@@ -323,7 +348,7 @@
       margin: 0 28px 8px;
       display: none;
     }
-
+ 
     /* FOOTER */
     .footer {
       padding: 12px 28px;
@@ -333,7 +358,7 @@
     }
     .footer-txt { font-size: 10px; color: var(--dim); letter-spacing: 0.1em; }
     .footer-brand { font-size: 10px; color: var(--orange); letter-spacing: 0.12em; font-weight: 600; }
-
+ 
     /* CARD IMAGE */
     .card-reveal {
       display: flex;
@@ -394,7 +419,10 @@
 </head>
 <body>
 <div class="container">
-
+ 
+  <!-- PHOTO -->
+  <img src="/adelaine.png" alt="Adelaine" class="adelaine-photo"/>
+ 
   <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-eyebrow">
@@ -405,7 +433,7 @@
     <div class="hdr-name">Adelaine</div>
     <div class="hdr-sub">AI TAROT READER</div>
   </div>
-
+ 
   <!-- WELCOME SCREEN -->
   <div id="s-welcome" class="screen">
     <div class="screen-label">WHERE DO YOU START</div>
@@ -424,7 +452,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- NEW USER SCREEN -->
   <div id="s-new" class="screen" style="display:none">
     <button class="back" onclick="show('s-welcome')">← BACK</button>
@@ -459,7 +487,7 @@
       </button>
     </div>
   </div>
-
+ 
   <!-- EXPERIENCED SCREEN -->
   <div id="s-exp" class="screen" style="display:none">
     <button class="back" onclick="show('s-welcome')">← BACK</button>
@@ -478,9 +506,13 @@
       </button>
     </div>
   </div>
-
+ 
   <!-- CHAT SCREEN -->
   <div id="s-chat" style="display:none">
+    <div style="padding:12px 28px;display:flex;gap:8px;border-bottom:1px solid var(--border);background:var(--card)">
+      <button class="back" style="margin-bottom:0" onclick="goBackToReadings()">← READINGS</button>
+      <button class="back" style="margin-bottom:0;margin-left:auto" onclick="show('s-welcome')">START OVER</button>
+    </div>
     <div class="messages" id="msgs"></div>
     <div class="trow" id="trow">
       <div style="display:flex;gap:9px;align-items:center">
@@ -509,18 +541,18 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- FOOTER -->
   <div class="footer">
     <div class="footer-txt">POWERED BY</div>
     <div class="footer-brand">ALTIORA</div>
   </div>
-
+ 
 </div>
-
+ 
 <script>
   const major = ['The Fool','The Magician','The High Priestess','The Empress','The Emperor','The Hierophant','The Lovers','The Chariot','Strength','The Hermit','Wheel of Fortune','Justice','The Hanged Man','Death','Temperance','The Devil','The Tower','The Star','The Moon','The Sun','Judgement','The World'];
-
+ 
   const cardImages = {
     // Major Arcana
     'The Fool': '/cards/major-00.jpg',
@@ -606,12 +638,12 @@
     'Queen of Pentacles': '/cards/pentacles-13.jpg',
     'King of Pentacles': '/cards/pentacles-14.jpg'
   };
-
+ 
   let history = [];
   let readingCount = 0;
   let unlocked = false;
   let fileData = null;
-
+ 
   function show(id) {
     ['s-welcome','s-new','s-exp','s-chat'].forEach(s => {
       const el = document.getElementById(s);
@@ -619,15 +651,27 @@
     });
     document.getElementById(id).style.display = 'block';
   }
-
-  function chooseLevel(l) { show(l === 'new' ? 's-new' : 's-exp'); }
-
+ 
+  let currentLevel = 'new';
+ 
+  function chooseLevel(l) {
+    currentLevel = l;
+    show(l === 'new' ? 's-new' : 's-exp');
+  }
+ 
+  function goBackToReadings() {
+    // Remove card reveal if present
+    const existing = document.getElementById('card-reveal');
+    if (existing) existing.remove();
+    show(currentLevel === 'new' ? 's-new' : 's-exp');
+  }
+ 
   function showCardReveal(cardName) {
     const chatSection = document.getElementById('s-chat');
     // Remove existing reveal if any
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
-
+ 
     const imgSrc = cardImages[cardName];
     const div = document.createElement('div');
     div.className = 'card-reveal';
@@ -644,14 +688,14 @@
       </div>
     `;
     chatSection.insertBefore(div, document.getElementById('msgs'));
-
+ 
     // Flip after short delay for effect
     setTimeout(() => {
       const inner = document.getElementById('card-inner');
       if (inner) inner.classList.add('flipped');
     }, 400);
   }
-
+ 
   function startReading(type) {
     show('s-chat');
     document.getElementById('msgs').innerHTML = '';
@@ -659,25 +703,27 @@
     // Remove any previous card reveal
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
-
+ 
     if (type === 'daily') {
       const card = major[Math.floor(Math.random() * major.length)];
+      const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       showCardReveal(card);
-      addMsg(`Your card for today — <strong>${card}</strong>.<br>Reading its energy now...`, 'a');
-      callAdelaine(`Give a daily signifier reading for the Major Arcana card: ${card}. What energy does this bring for today?`, null, true);
+      addMsg(`Today is <strong>${today}</strong>.<br>The energy of your day is — <strong>${card}</strong>.<br>Reading now...`, 'a');
+      callAdelaine(`Give a daily signifier reading for the Major Arcana card: ${card} for today, ${today}. What energy does this bring for today? Be specific and grounded.`, null, true);
       document.getElementById('inp-area').style.display = 'none';
     } else if (type === 'monthly') {
       const card = major[Math.floor(Math.random() * major.length)];
+      const monthName = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
       showCardReveal(card);
-      addMsg(`Your card for this month — <strong>${card}</strong>.<br>Reading its theme now...`, 'a');
-      callAdelaine(`Give a monthly signifier reading for the Major Arcana card: ${card}. What theme or energy does this bring for the month ahead?`, null, true);
+      addMsg(`The energy of <strong>${monthName}</strong> is — <strong>${card}</strong>.<br>Reading its theme now...`, 'a');
+      callAdelaine(`Give a monthly signifier reading for the Major Arcana card: ${card} for ${monthName}. What theme or energy does this bring for the month ahead? Be specific and grounded.`, null, true);
       document.getElementById('inp-area').style.display = 'none';
     } else {
       addMsg('Ready for your reading.<br><br>Upload a photo of your spread if you have one, then tell me your question — the area of life, the time frame, and what you\'re seeking clarity on.', 'a');
       document.getElementById('inp-area').style.display = 'flex';
     }
   }
-
+ 
   function addMsg(text, who) {
     const msgs = document.getElementById('msgs');
     const row = document.createElement('div');
@@ -692,35 +738,35 @@
     msgs.appendChild(row);
     msgs.scrollTop = msgs.scrollHeight;
   }
-
+ 
   function showTyping(v) {
     document.getElementById('trow').style.display = v ? 'block' : 'none';
     document.getElementById('msgs').scrollTop = 9999;
   }
-
+ 
   async function send() {
     const inp = document.getElementById('inp');
     const val = inp.value.trim();
     if (!val) return;
     inp.value = '';
     addMsg(val, 'u');
-    await callAdelaine(val, fileData);
+    await callAdelaine(val, fileData, false);
     fileData = null;
     document.getElementById('fname').textContent = 'OPTIONAL';
     document.getElementById('file-in').value = '';
   }
-
-  async function callAdelaine(text, imageData, isAuto = false) {
+ 
+  async function callAdelaine(text, imageData, isSignifier = false) {
     showTyping(true);
-
+ 
     const content = [];
     if (imageData) {
       content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: imageData.split(',')[1] } });
     }
     content.push({ type: 'text', text });
-
+ 
     history.push({ role: 'user', content: content.length === 1 ? text : content });
-
+ 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -732,37 +778,55 @@
       const reply = data.reply || 'The cards are quiet right now. Please try again.';
       history.push({ role: 'assistant', content: reply });
       addMsg(reply, 'a');
-      if (!unlocked) {
+      if (isSignifier) {
+        checkGate(true);
+      } else if (!unlocked) {
         readingCount++;
-        checkGate();
+        checkGate(false);
       }
     } catch (e) {
       showTyping(false);
       addMsg('Something interrupted the reading. Please try again.', 'a');
     }
   }
-
-  function checkGate() {
+ 
+  function checkGate(isSignifier = false) {
+    if (isSignifier) {
+      // For daily/monthly — just show a subtle "new reading" nudge, no gate
+      const msgs = document.getElementById('msgs');
+      const nudge = document.createElement('div');
+      nudge.style.cssText = 'text-align:center;padding:12px 0 4px;';
+      nudge.innerHTML = '<button onclick="goBackToReadings()" style="font-size:11px;letter-spacing:0.08em;color:var(--orange);background:none;border:1px solid var(--orange);border-radius:4px;padding:6px 14px;cursor:pointer;font-family:DM Sans,sans-serif;">← NEW READING</button>';
+      msgs.appendChild(nudge);
+      msgs.scrollTop = msgs.scrollHeight;
+      return;
+    }
     if (!unlocked && readingCount >= 1) {
       document.getElementById('inp-area').style.display = 'none';
       document.getElementById('gate').style.display = 'block';
     }
   }
-
+ 
   function unlock() {
     const email = document.getElementById('email-in').value.trim();
     if (!email || !email.includes('@')) {
       document.getElementById('email-in').style.borderColor = 'var(--orange)';
       return;
     }
-    console.log('Email captured:', email);
+    // Send email to Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbxXp-GLHMdCB-zY592bHAkwzegBrzYWettnLTPt5I5mQr6_9_yJst7WAvBMiRl_gZ4B/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'Adelaine Widget' })
+    }).catch(err => console.log('Sheet error:', err));
     unlocked = true;
     document.getElementById('gate').style.display = 'none';
     document.getElementById('inp-area').style.display = 'flex';
     document.getElementById('unlocked-tag').style.display = 'block';
     addMsg('Welcome back. The deck is fully open — ask as many questions as you like.', 'a');
   }
-
+ 
   function fileChosen(input) {
     if (input.files && input.files[0]) {
       document.getElementById('fname').textContent = input.files[0].name;
