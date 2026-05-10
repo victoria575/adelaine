@@ -72,7 +72,7 @@
 
     .container {
       width: 100%;
-      max-width: 520px;
+      max-width: 570px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -110,7 +110,7 @@
 
     /* HEADER */
     .hdr {
-      padding: 26px 28px 22px;
+      padding: 4px 28px 4px;
       border-bottom: 1px solid var(--border);
       text-align: center;
       background: var(--card);
@@ -119,28 +119,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 2px;
     }
     .hdr-line { width: 24px; height: 1px; background: var(--orange); }
     .hdr-label {
-      font-size: 10px;
-      letter-spacing: 0.18em;
+      font-size: 9px;
+      letter-spacing: 0.14em;
       color: var(--orange);
       font-weight: 600;
     }
     .hdr-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 44px;
+      font-size: 22px;
       letter-spacing: 0.06em;
       color: var(--text);
       line-height: 1;
-      margin-bottom: 6px;
+      margin-bottom: 1px;
     }
     .hdr-sub {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--muted);
-      letter-spacing: 0.12em;
+      letter-spacing: 0.10em;
       font-weight: 500;
     }
 
@@ -691,6 +691,11 @@
           <input type="email" id="email-in" placeholder="your@email.com" onkeydown="if(event.key==='Enter')unlock()" style="flex:1"/>
           <button onclick="unlock()">UNLOCK →</button>
         </div>
+        <label style="display:flex;align-items:flex-start;gap:8px;margin-top:10px;cursor:pointer;text-align:left;" for="tc-check">
+          <input type="checkbox" id="tc-check" style="margin-top:2px;accent-color:var(--orange);flex-shrink:0;width:14px;height:14px;cursor:pointer;"/>
+          <span style="font-size:11px;color:var(--muted);line-height:1.5;">I agree to the <a href="/terms.html" target="_blank" style="color:var(--orange);text-decoration:underline;">Terms & Conditions</a> — tarot is for entertainment only and I consent to receive newsletters from Altiora.</span>
+        </label>
+        <div id="tc-error" style="display:none;font-size:11px;color:var(--orange);text-align:center;margin-top:4px;">Please agree to the Terms & Conditions to continue.</div>
       </div>
     </div>
   </div>
@@ -1206,6 +1211,9 @@
   let userName = '';
 
   function unlock() {
+    const tc=document.getElementById('tc-check');
+    if(tc && !tc.checked){document.getElementById('tc-error').style.display='block';return;}
+    if(tc) document.getElementById('tc-error').style.display='none';
     const email = document.getElementById('email-in').value.trim();
     const name = document.getElementById('name-in').value.trim();
     if (!name) {
