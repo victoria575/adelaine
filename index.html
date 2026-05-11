@@ -1107,7 +1107,7 @@
     const msgs = document.getElementById('msgs');
     const spread = document.createElement('div');
     spread.className = 'spread-reveal';
-    spread.id = 'three-card-spread';
+    spread.id = 'spread-' + Date.now();
 
     drawn.forEach((card, i) => {
       const imgSrc = wikiCardImages[card.name] || cardImages[card.name] || '';
