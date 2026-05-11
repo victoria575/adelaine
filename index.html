@@ -568,7 +568,7 @@
 <div class="container">
 
   <!-- PHOTO -->
-  <img src="/adelaine.png" alt="Adelaine" class="adelaine-photo"/>
+  <img src="/adelaine.png" alt="Adelaine" class="adelaine-photo" id="adelaine-photo"/>
 
   <!-- HEADER -->
   <div class="hdr">
@@ -628,9 +628,9 @@
         <span class="abtn-icon">☽</span> MONTHLY SIGNIFIER
         <span class="abtn-sub">MAJOR ARCANA · THIS MONTH</span>
       </button>
-      <button class="abtn primary" onclick="startReading('question')">
+      <button class="abtn primary" onclick="startReading('question','new')">
         <span class="abtn-icon">✦</span> ASK A QUESTION
-        <span class="abtn-sub">UPLOAD SPREAD OR DESCRIBE</span>
+        <span class="abtn-sub">ADELAINE DRAWS FOR YOU</span>
       </button>
     </div>
   </div>
@@ -647,9 +647,9 @@
         <span class="abtn-icon">☽</span> MONTHLY SIGNIFIER
         <span class="abtn-sub">MAJOR ARCANA · THIS MONTH</span>
       </button>
-      <button class="abtn primary" onclick="startReading('question')">
+      <button class="abtn primary" onclick="startReading('question','exp')">
         <span class="abtn-icon">✦</span> ASK A QUESTION
-        <span class="abtn-sub">UPLOAD SPREAD OR DESCRIBE</span>
+        <span class="abtn-sub">UPLOAD OR DESCRIBE SPREAD</span>
       </button>
     </div>
   </div>
@@ -820,6 +820,8 @@
   let fileData = null;
 
   function show(id) {
+    const _photo = document.getElementById('adelaine-photo');
+    if(_photo) _photo.style.display = (id === 's-chat') ? 'none' : 'block';
     ['s-welcome','s-new','s-exp','s-chat'].forEach(s => {
       const el = document.getElementById(s);
       if (el) el.style.display = 'none';
@@ -845,7 +847,7 @@
     const existing = document.getElementById('card-reveal');
     if (existing) existing.remove();
 
-    const imgSrc = cardImages[cardName];
+    const imgSrc = (wikiCardImages && wikiCardImages[cardName]) || cardImages[cardName];
     const msgs = document.getElementById('msgs');
 
     const div = document.createElement('div');
@@ -884,7 +886,13 @@
       const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       showCardReveal(card);
       const greeting = userName ? `${userName}, today is` : `Today is`;
-      addMsg(`${greeting} <strong>${today}</strong>.<br>The energy of your day is — <strong>${card}</strong>.<br>Reading now...`, 'a');
+      addMsg(`${greeting} <strong>${today}</strong>.<br>The energy of your day is — <strong>${card}</strong>.`, 'a');
+      pendingReading = { card, context: today, type: 'daily' };
+      if (!unlocked) {
+        document.getElementById('inp-area').style.display = 'none';
+        document.getElementById('gate').style.display = 'block';
+        return;
+      }
       callAdelaine(`Give a daily signifier reading for the Major Arcana card: ${card} for today, ${today}.${userName ? ' Address the person as ' + userName + '.' : ''} What energy does this bring for today? Be specific and grounded.`, null, true);
       document.getElementById('inp-area').style.display = 'none';
     } else if (type === 'monthly') {
@@ -892,7 +900,13 @@
       const monthName = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
       showCardReveal(card);
       const mgreeting = userName ? `${userName}, the energy of` : `The energy of`;
-      addMsg(`${mgreeting} <strong>${monthName}</strong> is — <strong>${card}</strong>.<br>Reading its theme now...`, 'a');
+      addMsg(`${mgreeting} <strong>${monthName}</strong> is — <strong>${card}</strong>.`, 'a');
+      pendingReading = { card, context: monthName, type: 'monthly' };
+      if (!unlocked) {
+        document.getElementById('inp-area').style.display = 'none';
+        document.getElementById('gate').style.display = 'block';
+        return;
+      }
       callAdelaine(`Give a monthly signifier reading for the Major Arcana card: ${card} for ${monthName}.${userName ? ' Address the person as ' + userName + '.' : ''} What theme or energy does this bring for the month ahead? Be specific and grounded.`, null, true);
       document.getElementById('inp-area').style.display = 'none';
     } else {
@@ -1236,6 +1250,18 @@
     document.getElementById('inp-area').style.display = 'flex';
     document.getElementById('unlocked-tag').style.display = 'block';
     addMsg(`Welcome, ${userName}. The deck is fully open — ask as many questions as you like.`, 'a');
+    if (pendingReading) {
+      const pr = pendingReading; pendingReading = null;
+      const prompt = pr.type === 'daily'
+        ? `Give a daily signifier reading for the Major Arcana card: ${pr.card} for today, ${pr.context}.${userName ? ' Address the person as ' + userName + '.' : ''} Keep it concise — 3-4 short paragraphs. End with a clear one-sentence summary. Then invite the person to share what they see or feel in the card.`
+        : `Give a monthly signifier reading for the Major Arcana card: ${pr.card} for ${pr.context}.${userName ? ' Address the person as ' + userName + '.' : ''} Keep it concise — 3-4 short paragraphs. End with a clear one-sentence summary. Then invite the person to share what they see or feel in the card.`;
+      callAdelaine(prompt, null, true);
+      document.getElementById('inp-area').style.display = 'flex';
+      document.getElementById('inp-area').dataset.step = 'reading';
+      document.getElementById('inp').placeholder = 'What do you see in this card?';
+    } else {
+      document.getElementById('inp-area').style.display = 'flex';
+    }
   }
 
   function fileChosen(input) {
